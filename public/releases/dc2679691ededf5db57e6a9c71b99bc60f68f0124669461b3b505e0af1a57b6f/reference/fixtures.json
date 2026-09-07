@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "provenance": "synthetic",
+  "version": "cluster-list-synthetic-v1",
+  "clusters": [
+    { "id": "demo-1", "name": "commerce-demo", "status": "Active", "plan": "Starter", "cloud": "AWS", "region": "Oregon (us-west-2)", "version": "v8.5.0", "created": "2026-09-01 09:00" },
+    { "id": "demo-2", "name": "analytics-sandbox", "status": "Creating", "plan": "Starter", "cloud": "AWS", "region": "Oregon (us-west-2)", "version": "v8.5.0", "created": "2026-09-02 10:30" },
+    { "id": "demo-3", "name": "checkout-preview", "status": "Active", "plan": "Starter", "cloud": "AWS", "region": "Oregon (us-west-2)", "version": "v8.5.0", "created": "2026-09-03 14:15" }
+  ]
+}
