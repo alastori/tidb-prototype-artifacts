@@ -1,0 +1,54 @@
+name: Publish retained synthetic artifacts
+
+on:
+  workflow_dispatch:
+    inputs:
+      retained_ref:
+        description: Last successfully verified Pages commit (current commit for initial deployment)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: retained-synthetic-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          package-manager-cache: false
+      - name: Verify sealed bytes and retain the previous publication
+        env:
+          RETAINED_REF: ${{ inputs.retained_ref }}
+        run: node tools/prototype-artifacts/bin/pages.mjs check --site "$GITHUB_WORKSPACE/public" --retained-ref "$RETAINED_REF"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+      - name: Deploy the complete retained directory
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify every hosted release with exact bytes
+        env:
+          RETAINED_REF: ${{ inputs.retained_ref }}
+          PAGES_ORIGIN: ${{ steps.deployment.outputs.page_url }}
+        run: node tools/prototype-artifacts/bin/pages.mjs verify --site "$GITHUB_WORKSPACE/public" --retained-ref "$RETAINED_REF" --origin "$PAGES_ORIGIN"
