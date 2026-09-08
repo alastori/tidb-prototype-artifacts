@@ -1,0 +1,29 @@
+{
+  "version": "export-status-v1-synthetic-1",
+  "source": "Synthetic status-v1 examples",
+  "scenarios": [
+    "available",
+    "unknown",
+    "work-complete",
+    "retained-speed",
+    "unknown-total",
+    "unavailable",
+    "legacy"
+  ],
+  "lifecycle": ["RUNNING", "SUCCEEDED", "FAILED", "CANCELED"],
+  "reviewTerminalScenarios": {
+    "succeeded": "SUCCEEDED",
+    "failed": "FAILED",
+    "canceled": "CANCELED"
+  },
+  "workerStatus": {
+    "completedTables": 0,
+    "finishedBytes": 1650000000000,
+    "finishedRows": 1586923373,
+    "estimateTotalRows": 2147483648,
+    "totalTables": 1,
+    "currentSpeedBPS": 55000000,
+    "progress": "73.60 %",
+    "progressPercent": 73.6
+  }
+}
